@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
 from app import db, ml, viz
+
 
 description = """
 Edit your app's title and description. See [https://fastapi.tiangolo.com/tutorial/metadata/](https://fastapi.tiangolo.com/tutorial/metadata/)
@@ -16,9 +16,10 @@ To use these interactive docs:
 """
 
 app = FastAPI(
-    title='DS API',
+    title='DS API - Family Promise',
     description=description,
     docs_url='/',
+    version='0.35.0',
 )
 
 app.include_router(db.router, tags=['Database'])
@@ -34,4 +35,5 @@ app.add_middleware(
 )
 
 if __name__ == '__main__':
+    import uvicorn
     uvicorn.run(app)
