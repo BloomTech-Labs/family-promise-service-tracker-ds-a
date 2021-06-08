@@ -15,7 +15,7 @@ async def visual():
     DATA_PATH = 'https://raw.githubusercontent.com/Lambda-School-Labs/family-promise-service-tracker-ds-a/main/data/services_by-zipcode.csv'
     df = pd.read_csv(DATA_PATH, index_col=0)
 
-    fig = px.scatter_mapbox(map, lat="latitude", lon='longitude',
+    fig = px.scatter_mapbox(df, lat="latitude", lon='longitude',
                      color="city", # which column to use to set the color of markers
                      hover_name="zipcode", # column added to hover information
                      size='counts',
