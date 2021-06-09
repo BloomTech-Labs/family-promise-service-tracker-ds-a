@@ -27,7 +27,7 @@ async def visual():
     return fig.to_json()
 
 
-@router.post('/veteran_counts')
+@router.get('/veteran_counts')
 async def veteran_counts(be_json):
     """
     If JSON provided by BE is simple, this function will return a bar chart of the count 
@@ -38,19 +38,21 @@ async def veteran_counts(be_json):
     TODO: find out what the JSON's that the BE will send over look like
     """
     # read in json
-    df = pd.json_normalize(be_json, record_path=['recipients'])
-    # get value counts of veterans vs non veterans
-    veteran_counts = df['recipient_veteran_status'].value_counts()
-    # make bar chart of the counts
-    veteran_counts_fig = px.bar(
-        veteran_counts,
-        labels={'index': 'Veteran Status', 'value': 'Count'},
-        # title might have to be an f-string, especially when creating
-        # this vislualization will be done by service or other filters
-        title='Number of Veterans being Served by Family Promise'
-    )
-    # get rid of legend, because it does not have useful information (in this case)
-    veteran_counts_fig.update_layout(showlegend=False)
+    df = pd.read_json(be_json, orient='records')
+    # # get value counts of veterans vs non veterans
+    # veteran_counts = df['recipient_veteran_status'].value_counts()
+    # # make bar chart of the counts
+    # veteran_counts_fig = px.bar(
+    #     veteran_counts,
+    #     labels={'index': 'Veteran Status', 'value': 'Count'},
+    #     # title might have to be an f-string, especially when creating
+    #     # this vislualization will be done by service or other filters
+    #     title='Number of Veterans being Served by Family Promise'
+    # )
+    # # get rid of legend, because it does not have useful information (in this case)
+    # veteran_counts_fig.update_layout(showlegend=False)
 
     # make figure a json that can then be rendered by FE
-    return veteran_counts_fig.to_json()
+    # return veteran_counts_fig.to_json()
+    # veteran_counts_fig.show()
+    return df
