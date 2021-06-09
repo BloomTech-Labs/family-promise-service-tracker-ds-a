@@ -8,6 +8,7 @@ awsebcli = "*"
 jupyter = "*"
 pytest = "*"
 pytest-pylint = "*"
+autopep8 = "*"
 
 [packages]
 fastapi = "*"
@@ -15,6 +16,10 @@ gunicorn = "*"
 sqlalchemy = "*"
 typing-extensions = "*"
 uvicorn = {extras = ["standard"], version = "*"}
+pandas = "*"
+plotly = "*"
+python-dotenv = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3"
