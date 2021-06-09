@@ -38,7 +38,7 @@ async def veteran_counts(be_json):
     TODO: find out what the JSON's that the BE will send over look like
     """
     # read in json
-    df = pd.read_json(be_json)
+    df = pd.json_normalize(be_json, record_path=['recipients'])
     # get value counts of veterans vs non veterans
     veteran_counts = df['recipient_veteran_status'].value_counts()
     # make bar chart of the counts
