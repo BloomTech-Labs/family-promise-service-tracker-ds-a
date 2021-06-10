@@ -1,0 +1,17 @@
+[
+    {
+        "id": "A001",
+        "name": "Tom Dylan",
+        "recipient_veteran_status": true
+    },
+    {
+        "id": "A002",
+        "name": "Karla Newman",
+        "recipient_veteran_status": true
+    },
+    {
+        "id": "A003",
+        "name": "David White",
+        "recipient_veteran_status": false
+    }
+]
