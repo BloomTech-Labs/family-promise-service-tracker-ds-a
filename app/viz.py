@@ -3,7 +3,7 @@
 from fastapi import APIRouter
 import pandas as pd
 import plotly.express as px
-import numpy as np
+import json
 
 router = APIRouter()
 
@@ -11,8 +11,8 @@ router = APIRouter()
 @router.get('/vizmap')
 async def visual():
     # load in dataset
-    DATA_PATH = 'https://raw.githubusercontent.com/Lambda-School-Labs/family-promise-service-tracker-ds-a/main/data/services_by-zipcode.csv'
-    df = pd.read_csv(DATA_PATH, index_col=0)
+    DATA_PATH = './data/services_by-zipcode.csv'
+    df = pd.read_csv(DATA_PATH)
 
     fig = px.scatter_mapbox(df, lat="latitude", lon='longitude',
                             color="city",  # which column to use to set the color of markers
@@ -27,8 +27,8 @@ async def visual():
     return fig.to_json()
 
 
-@router.post('/veteran_counts')
-async def veteran_counts(be_json):
+@router.get('/veteran_counts')
+async def veteran_counts():
     """
     If JSON provided by BE is simple, this function will return a bar chart of the count 
     of veterans being served by Family Promise, in JSON form.
@@ -37,8 +37,14 @@ async def veteran_counts(be_json):
     would have to be altered.
     TODO: find out what the JSON's that the BE will send over look like
     """
+
     # read in json
-    df = pd.read_json(be_json)
+    with open("./data/test.json", 'r') as f:
+        Data_path_vet = json.loads(f.read())
+
+    # create dataframe from loaded json
+    df = pd.DataFrame.from_dict(Data_path_vet)
+
     # get value counts of veterans vs non veterans
     veteran_counts = df['recipient_veteran_status'].value_counts()
     # make bar chart of the counts

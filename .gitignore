@@ -144,6 +144,3 @@ cython_debug/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-
-# Practice files
-practice_connection.py
