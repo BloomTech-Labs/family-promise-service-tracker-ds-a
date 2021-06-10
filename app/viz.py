@@ -36,6 +36,9 @@ async def veteran_counts():
     If the desired figure is for veteran counts in a specific service, then this function
     would have to be altered.
     TODO: find out what the JSON's that the BE will send over look like
+
+    This is a hardcoded test, due to the fact that we still do not know the exact format
+    in which we will recieve JSON's from the BE.
     """
 
     # read in json
