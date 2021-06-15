@@ -20,6 +20,8 @@ pandas = "*"
 plotly = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
+importlib-metadata = "*"
+numpy = "*"
 
 [requires]
 python_version = "3"
