@@ -5,7 +5,6 @@ from app import db, ml, viz
 
 
 description = """
-Edit your app's title and description. See [https://fastapi.tiangolo.com/tutorial/metadata/](https://fastapi.tiangolo.com/tutorial/metadata/)
 
 To use these interactive docs:
 - Click on an endpoint below
@@ -19,7 +18,7 @@ app = FastAPI(
     title='DS API - Family Promise',
     description=description,
     docs_url='/',
-    version='0.35.0',
+    version='0.35.3',
 )
 
 app.include_router(db.router, tags=['Database'])
