@@ -27,22 +27,15 @@ async def visual():
     return fig.to_json()
 
 
-@router.get('/veteran_counts')
-async def veteran_counts():
+@router.post('/veteran_counts/{query_json}')
+async def veteran_counts(query_json):
     """
-    If JSON provided by BE is simple, this function will return a bar chart of the count 
-    of veterans being served by Family Promise, in JSON form.
-
-    If the desired figure is for veteran counts in a specific service, then this function
-    would have to be altered.
-    TODO: find out what the JSON's that the BE will send over look like
-
-    This is a hardcoded test, due to the fact that we still do not know the exact format
-    in which we will recieve JSON's from the BE.
+    This function will return a bar chart of the count of veterans being 
+    served by Family Promise, in JSON form.
     """
 
     # read in json
-    with open("./data/test.json", 'r') as f:
+    with open(query_json, 'r') as f:
         Data_path_vet = json.loads(f.read())
 
     # create dataframe from loaded json
@@ -54,9 +47,7 @@ async def veteran_counts():
     veteran_counts_fig = px.bar(
         veteran_counts,
         labels={'index': 'Veteran Status', 'value': 'Count'},
-        # title might have to be an f-string, especially when creating
-        # this vislualization will be done by service or other filters
-        title='Number of Veterans being Served by Family Promise'
+        title='Number of Veterans being Served'
     )
     # get rid of legend, because it does not have useful information (in this case)
     veteran_counts_fig.update_layout(showlegend=False)
