@@ -9,3 +9,6 @@
 
 # license
 LICENSE
+
+# csv files
+*.csv
