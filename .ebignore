@@ -1,0 +1,14 @@
+.DS_Store
+.vscode/
+
+# markdowns
+*.md
+
+# notebooks
+*.ipynb
+
+# license
+LICENSE
+
+# csv files
+*.csv
