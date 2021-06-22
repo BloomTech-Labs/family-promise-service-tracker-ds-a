@@ -20,8 +20,9 @@ Plus:
 
 from `locations` table.
 
+*zip codes are pulled from github repo link and added to a dataframe based on pulled zip
 
-### `/veteran_counts` enpoint
+### `/veteran_counts` endpoint
 A JSON object containing:
 
 - recipient_id
@@ -30,6 +31,21 @@ A JSON object containing:
 from `recipients` table.
 
 
+### `/age_metric` endpoint
+A JSON object containing:
+
+- recipient_id
+- recipient_date_of_birth
+
+from `recipients` table.
+
+### `/race-gender_metric` endpoint
+A JSON object containing:
+
+- recipient_id (from `recipients` table)
+- service_type_name (from `service_types` table)
+- race (from `races` table)
+- gender (from `genders` table)
 
 
 
