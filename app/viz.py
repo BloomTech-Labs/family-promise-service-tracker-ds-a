@@ -103,7 +103,7 @@ async def veteran_counts(query_json):
 @router.post('/age_metric/{query_json}')
 async def age_metric(query_json):
     """
-    This function will return a bar chart of the count of veterans being 
+    This function will return a table visual of the count of recipients by age group being 
     served by Family Promise, in JSON form.
     """
 ​
