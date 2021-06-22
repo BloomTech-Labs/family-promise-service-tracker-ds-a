@@ -1,0 +1,29 @@
+[
+    {
+        "service_description": "Case Management",
+        "address": "123 Gilman Dr W",
+        "address_line2": null,
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98119",
+        "country": "United States"
+    },
+    {
+        "service_description": "Case Management",
+        "address": "456 7th Avenue West",
+        "address_line2": null,
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98119",
+        "country": "United States"
+    },
+    {
+        "service_description": "Transportation",
+        "address": "789 West Lee Street",
+        "address_line2": null,
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98119",
+        "country": "United States"
+    }
+]
