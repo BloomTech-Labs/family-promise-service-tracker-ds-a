@@ -99,3 +99,46 @@ async def veteran_counts(query_json):
 
     # make figure a json that can then be rendered by FE
     return veteran_counts_fig.to_json()
+
+@router.post('/age_metric/{query_json}')
+async def age_metric(query_json):
+    """
+    This function will return a bar chart of the count of veterans being 
+    served by Family Promise, in JSON form.
+    """
+​
+    # read in json
+    with open(query_json, 'r') as f:
+    Data_path_age = json.loads(f.read())
+​
+    # create dataframe from loaded json
+    df = pd.DataFrame.from_dict(Data_path_age)
+    df = df.dropna()
+​
+    #configure dataset and calculate age based on date of birth from today    
+    df['DOB'] = pd.to_datetime(df['recipient_date_of_birth'],infer_datetime_format=False)
+    now = pd.to_datetime('now')
+    df_ages = df[['recipient_id', 'DOB']]
+    df_ages['age'] = df_ages['DOB'].apply(lambda x: now - x).astype('<m8[Y]')
+    
+    # binning ages into groups
+    bins = [0, 3, 6, 13, 18, 24, 40, 60, 125]
+​
+    labels = ['0-2 yrs', '3-6 yrs', '7-13 yrs', '14-18 yrs', '19-24 yrs', '25-40 yrs', '41-60 yrs', '61+ yrs', ]
+    df_ages['Age_Bins'] = pd.cut(df_ages.age, bins, labels= labels, include_lowest=True, right=False)
+​
+    df_age_grouped = df_ages.groupby(['Age_Bins']).count()
+    df_age_grouped=df_age_grouped.drop(columns=['age'])
+​
+    # make table of the counts
+    fig_age_counts = go.Figure(data=[go.Table(
+            header=dict(values=['Age', 'Count'],
+                        fill_color='paleturquoise',
+                        align='center'),
+            cells=dict(values=[df_age_grouped.index, df_age_grouped.recipient_id])
+        )])
+​
+    # get rid of legend, because it does not have useful information (in this case)
+    fig_age_counts.update_layout(showlegend=False)
+    # make figure a json that can then be rendered by FE
+    return fig_age_countsfig.to_json()
