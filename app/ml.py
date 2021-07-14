@@ -12,13 +12,13 @@ async def run_model(query_json):
     a result.
 
     ### Parameters
-    ----------
+    --------------
     query_json : JSON
         The query posted to the endpoint to be used as model input.
     TODO: Describe object format
-    
+
     ### Returns
-    -------
+    -----------
     JSON
         A JSON of the result from the model
         TODO: Describe object format
