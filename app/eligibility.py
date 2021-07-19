@@ -1,11 +1,10 @@
 import json
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from sqlalchemy.sql.expression import true
 from app.db import get_db
 from datetime import datetime
 
 router = APIRouter()
-db = get_db()
 
 @router.post("/eligibility/{id}")
 async def check_eligibility(id: str) -> dict:
@@ -49,7 +48,7 @@ async def check_eligibility(id: str) -> dict:
     return result
 
 
-def check_household_stability(id: str) -> bool:
+def check_household_stability(id: str, db = Depends(get_db)) -> bool:
     """
     Checks if a household has been flagged as unstable.
 
@@ -73,7 +72,7 @@ def check_household_stability(id: str) -> bool:
     return result
 
 
-def get_household_size(id: str) -> int:
+def get_household_size(id: str, db = Depends(get_db)) -> int:
     """
     Gets the size of a household from its id.
 
@@ -93,7 +92,7 @@ def get_household_size(id: str) -> int:
     return size.fetchall()[0][0]
 
 
-def check_income(id):
+def check_income(id, db = Depends(get_db)):
     """
     Checks if family income is below the current $61,680 threshold.
 
@@ -120,7 +119,7 @@ def check_income(id):
     return True if income <= threshold else False
 
 
-def check_recipients(id: str) -> 'tuple[bool]':
+def check_recipients(id: str, db = Depends(get_db)) -> 'tuple[bool]':
     """
     Checks whether or not recipients in a household are above the age of 65, and
     if they're a veteran.
