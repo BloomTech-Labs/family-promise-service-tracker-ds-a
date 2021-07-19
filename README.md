@@ -39,13 +39,11 @@ A JSON object containing:
 
 from `recipients` table.
 
-### `/race-gender_metric` endpoint
+### `/eligibility` endpoint
 A JSON object containing:
 
-- recipient_id (from `recipients` table)
-- service_type_name (from `service_types` table)
-- race (from `races` table)
-- gender (from `genders` table)
+- resident_assistance_eligibility: bool
+- reduced_bus_fare_eligiblity: bool
 
 
 
