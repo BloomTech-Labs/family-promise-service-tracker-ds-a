@@ -1,10 +1,11 @@
 import json
 from fastapi import APIRouter
+from sqlalchemy.sql.expression import true
 from app.db import get_db
 from datetime import datetime
+
 router = APIRouter()
 db = get_db()
-
 
 @router.post("/eligibility/{id}")
 async def check_eligibility(id: str) -> dict:
@@ -15,7 +16,7 @@ async def check_eligibility(id: str) -> dict:
     --------------
     id
         A household_id entry from the households table.
-    
+
     ### Returns
     -----------
     JSON
@@ -27,7 +28,8 @@ async def check_eligibility(id: str) -> dict:
 
     eligible_income = check_income(id)
     household_size = get_household_size(id) # Currently unused
-    has_senior_citizen, has_veteran = check_recipients(id)
+    has_senior_citizen, has_veteran, has_disability, has_valid_ssi, \
+        has_valid_medicare_card = check_recipients(id)
 
     # Check for resident assistance eligibility
     # This will change if more information is added to the database
@@ -47,6 +49,30 @@ async def check_eligibility(id: str) -> dict:
     return result
 
 
+def check_household_stability(id: str) -> bool:
+    """
+    Checks if a household has been flagged as unstable.
+
+    ### Parameters
+    --------------
+    id
+        A household_id from the households table
+
+    ### Returns
+    -----------
+    bool
+        True if household flagged as unstable, otherwise False
+    """
+    query_string = f"""
+    SELECT is_unstable
+    FROM households
+    WHERE household_id = {id}
+    """
+    with db.begin():
+        result = db.execute(query_string).fetchall()[0][0]
+    return result
+
+
 def get_household_size(id: str) -> int:
     """
     Gets the size of a household from its id.
@@ -55,14 +81,15 @@ def get_household_size(id: str) -> int:
     --------------
     id
         A household_id from the households table
-    
+
     ### Returns
     -----------
     int
         The size of the household as the number of household members
     """
-    size = db.execute(
-        f"SELECT household_size FROM households WHERE household_id = {id}")
+    with db.begin():
+        size = db.execute(
+            f"SELECT household_size FROM households WHERE household_id = {id}")
     return size.fetchall()[0][0]
 
 
@@ -74,7 +101,7 @@ def check_income(id):
     --------------
     id
         A household_id from the households table
-    
+
     ### Returns
     -----------
     bool
@@ -88,7 +115,8 @@ def check_income(id):
     # This should not be hard coded, and is currently a placeholder with the 
     # correct value as of 7/18/2021 for Spokane, WA.
     threshold = 61680
-    income = db.execute(query_string).fetchall()[0][0]
+    with db.begin():
+        income = db.execute(query_string).fetchall()[0][0]
     return True if income <= threshold else False
 
 
@@ -101,25 +129,43 @@ def check_recipients(id: str) -> 'tuple[bool]':
     --------------
     id
         A household_id from the households table
-    
+
     ### Returns
     -----------
     tuple[bool]
-        A tuple containing two booleans, denoting if a family has members over
-        the age of 65 and/or veterans, respectively.
+        A tuple containing the following, in order:
+        over_65
+        vet_status
+        has_disability
+        has_valid_ssi
+        has_valid_medicare_card
     """
     query_string = f"""
-    SELECT recipient_date_of_birth, recipient_veteran_status
+    SELECT recipient_date_of_birth, recipient_veteran_status, has_disability,
+    has_valid_ssi, has_valid_medicare_card
     FROM recipients
     WHERE household_id = {id}
     """
-    recipients = db.execute(query_string).fetchall()
+    with db.begin():
+        recipients = db.execute(query_string).fetchall()
     vet_status = False
     over_65 = False
+    has_disability = False
+    has_valid_ssi = False
+    has_valid_medicare_card = False
     for person in recipients:
+        # There's a better way to do this line
         age = (datetime.now().date() - person[0]).days / 365.25 # Accounts for leapyear
-        if person[1] == True:
-            vet_status = True
+
         if age >= 65:
             over_65 = True
-    return over_65, vet_status
+        if person[1]:
+            vet_status = True
+        if person[2]:
+            has_disability = True
+        if person[3]:
+            has_valid_ssi = True
+        if person[4]:
+            has_valid_medicare_card = True
+    return over_65, vet_status, has_disability, has_valid_ssi, \
+        has_valid_medicare_card
