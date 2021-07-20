@@ -121,7 +121,7 @@ def check_income(id, db: sqlalchemy.engine.Connection):
     # This should not be hard coded, and is currently a placeholder with the 
     # correct value as of 7/18/2021 for Spokane, WA.
     threshold = 61680
-    
+
     with db.begin():
         income = db.execute(query_string).fetchall()[0][0]
     return True if income <= threshold else False
