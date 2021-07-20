@@ -1,13 +1,13 @@
-import json
 from fastapi import APIRouter, Depends
-from sqlalchemy.sql.expression import true
-from app.db import get_db
+import sqlalchemy
 from datetime import datetime
+from app.db import get_db
 
 router = APIRouter()
 
+
 @router.post("/eligibility/{id}")
-async def check_eligibility(id: str) -> dict:
+async def check_eligibility(id: str, db = Depends(get_db)) -> dict:
     """
     Checks for eligibility for services based on service provider data.
 
@@ -22,25 +22,31 @@ async def check_eligibility(id: str) -> dict:
         "resident_assistance_eligibility": bool
         "reduced_bus_fare_eligiblity": bool
     """
+    # household_size and has_veteran are currently unused, but could prove
+    # necessary at a later date.
 
+    # May need to be changed depending on how the id is posted. Single quotes
+    # necessary for queries.
+    id = f"'{id}'"
     result = {}
-
-    eligible_income = check_income(id)
-    household_size = get_household_size(id) # Currently unused
+    eligible_income = check_income(id, db)
+    household_size = get_household_size(id, db) # Currently unused
     has_senior_citizen, has_veteran, has_disability, has_valid_ssi, \
-        has_valid_medicare_card = check_recipients(id)
+        has_valid_medicare_card = check_recipients(id, db)
+    is_unstable = check_household_stability(id, db)
 
     # Check for resident assistance eligibility
     # This will change if more information is added to the database
-    if eligible_income:
+    if eligible_income or is_unstable:
         result["resident_assistance_eligibility"] = True
     else:
         result["resident_assistance_eligibility"] = False
 
     # Check for reduced bus fare eligibility
-    # This will change when we have information regarding qualifying
-    # disabilities and/or SSI or Medicare cards
-    if has_senior_citizen:
+    if has_senior_citizen \
+        or has_disability \
+        or has_valid_ssi \
+        or has_valid_medicare_card:
         result["reduced_bus_fare_eligiblity"] = True
     else:
         result["reduced_bus_fare_eligiblity"] = False
@@ -48,7 +54,7 @@ async def check_eligibility(id: str) -> dict:
     return result
 
 
-def check_household_stability(id: str, db = Depends(get_db)) -> bool:
+def check_household_stability(id: str, db: sqlalchemy.engine.Connection) -> bool:
     """
     Checks if a household has been flagged as unstable.
 
@@ -67,12 +73,13 @@ def check_household_stability(id: str, db = Depends(get_db)) -> bool:
     FROM households
     WHERE household_id = {id}
     """
+    print(db)
     with db.begin():
         result = db.execute(query_string).fetchall()[0][0]
     return result
 
 
-def get_household_size(id: str, db = Depends(get_db)) -> int:
+def get_household_size(id: str, db = sqlalchemy.engine.Connection) -> int:
     """
     Gets the size of a household from its id.
 
@@ -92,7 +99,7 @@ def get_household_size(id: str, db = Depends(get_db)) -> int:
     return size.fetchall()[0][0]
 
 
-def check_income(id, db = Depends(get_db)):
+def check_income(id, db: sqlalchemy.engine.Connection):
     """
     Checks if family income is below the current $61,680 threshold.
 
@@ -114,12 +121,13 @@ def check_income(id, db = Depends(get_db)):
     # This should not be hard coded, and is currently a placeholder with the 
     # correct value as of 7/18/2021 for Spokane, WA.
     threshold = 61680
+    
     with db.begin():
         income = db.execute(query_string).fetchall()[0][0]
     return True if income <= threshold else False
 
 
-def check_recipients(id: str, db = Depends(get_db)) -> 'tuple[bool]':
+def check_recipients(id: str, db = sqlalchemy.engine.Connection) -> 'tuple[bool]':
     """
     Checks whether or not recipients in a household are above the age of 65, and
     if they're a veteran.
