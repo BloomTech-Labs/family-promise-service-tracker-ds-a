@@ -68,8 +68,8 @@ async def get_children_served(conn = Depends(get_db)) -> int:
     eighteen_years_ago = datetime(year = now.year - 18,
                                   month = now.month,
                                   day = now.day)
-    #filter df by DoB's past eighteen years ago
+    # Filter df by DoB's past eighteen years ago
     df = df[df[0] >= eighteen_years_ago.date()]
-    # grab the count
+    # Grab the count
     children_served = df.count()[0]
     return int(children_served)
