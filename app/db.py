@@ -4,7 +4,6 @@ import sqlalchemy
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends
 
-
 router = APIRouter()
 
 

@@ -73,7 +73,6 @@ def check_household_stability(id: str, db: sqlalchemy.engine.Connection) -> bool
     FROM households
     WHERE household_id = {id}
     """
-    print(db)
     with db.begin():
         result = db.execute(query_string).fetchall()[0][0]
     return result
