@@ -48,6 +48,17 @@ Returns a JSON object containing:
 - resident_assistance_eligibility: bool
 - reduced_bus_fare_eligiblity: bool
 
+### `/total_served` endpoint
+Returns an integer representing the total number of recipients recorded in the
+database.
+
+### `/families_served` endpoint
+Returns an integer representing the total number of families recorded in the
+database.
+
+### `/children_served` endpoint
+Returns an integer representing the total number of children recorded in the
+database.
 
 
 [Docs](https://docs.labs.lambdaschool.com/data-science/)
