@@ -39,6 +39,15 @@ A JSON object containing:
 
 from `recipients` table.
 
+### `/eligibility` endpoint
+Accepts a string containing a household_id from the
+households table.
+
+Returns a JSON object containing:
+
+- resident_assistance_eligibility: bool
+- reduced_bus_fare_eligiblity: bool
+
 ### `/total_served` endpoint
 Returns an integer representing the total number of recipients recorded in the
 database.

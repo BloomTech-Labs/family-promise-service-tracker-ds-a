@@ -20,6 +20,8 @@ pandas = "*"
 plotly = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
+geopy = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3"
