@@ -23,7 +23,9 @@ async def check_eligibility(id: str, db = Depends(get_db)) -> dict:
         "reduced_bus_fare_eligiblity": bool
     """
     # household_size and has_veteran are currently unused, but could prove
-    # necessary at a later date.
+    # necessary at a later date, when more information about services
+    # is available. An example of where this may come in handy is SNAP
+    # (food stamp) eligibility.
 
     # May need to be changed depending on how the id is posted. Single quotes
     # necessary for queries.
