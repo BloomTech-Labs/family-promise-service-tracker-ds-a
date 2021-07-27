@@ -39,14 +39,17 @@ A JSON object containing:
 
 from `recipients` table.
 
-### `/race-gender_metric` endpoint
-A JSON object containing:
+### `/total_served` endpoint
+Returns an integer representing the total number of recipients recorded in the
+database.
 
-- recipient_id (from `recipients` table)
-- service_type_name (from `service_types` table)
-- race (from `races` table)
-- gender (from `genders` table)
+### `/families_served` endpoint
+Returns an integer representing the total number of families recorded in the
+database.
 
+### `/children_served` endpoint
+Returns an integer representing the total number of children recorded in the
+database.
 
 
 [Docs](https://docs.labs.lambdaschool.com/data-science/)
