@@ -80,7 +80,7 @@ def check_household_stability(id: str, db: sqlalchemy.engine.Connection) -> bool
     return result
 
 
-def get_household_size(id: str, db = sqlalchemy.engine.Connection) -> int:
+def get_household_size(id: str, db: sqlalchemy.engine.Connection) -> int:
     """
     Gets the size of a household from its id.
 
@@ -128,7 +128,7 @@ def check_income(id, db: sqlalchemy.engine.Connection):
     return True if income <= threshold else False
 
 
-def check_recipients(id: str, db = sqlalchemy.engine.Connection) -> 'tuple[bool]':
+def check_recipients(id: str, db: sqlalchemy.engine.Connection) -> 'tuple[bool]':
     """
     Checks whether or not recipients in a household are above the age of 65, and
     if they're a veteran.
