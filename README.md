@@ -62,3 +62,12 @@ database.
 
 
 [Docs](https://docs.labs.lambdaschool.com/data-science/)
+
+### Running the DS application
+
+- Create the .env file in the folder.
+  - Add `DATABASE_URL = postgresql://docker:****@localhost:5400/api-dev` to the .env file.
+  - Make sure the .env file matches the .env file that is in the non public documentation.
+- run:`pipenv install --dev` to download all the dependencies.
+- run:`pipenv shell` to start the pipenv environment.
+- run:`uvicorn app.main:app --reload` to start running the fast api.
