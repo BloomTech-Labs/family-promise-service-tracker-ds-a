@@ -82,7 +82,7 @@ def check_household_stability(
     return result
 
 
-def get_household_size(id: str, db: sqlalchemy.engine.Connection) -> int:
+def get_household_size(household_id: str, db: sqlalchemy.engine.Connection) -> int:
     """
     Gets the size of a household from its id.
 
@@ -98,7 +98,7 @@ def get_household_size(id: str, db: sqlalchemy.engine.Connection) -> int:
     """
     with db.begin():
         size = db.execute(
-            f"SELECT household_size FROM households WHERE household_id = {id}")
+            f"SELECT household_size FROM households WHERE household_id = {household_id}")
     return size.fetchall()[0][0]
 
 
