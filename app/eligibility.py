@@ -2,12 +2,13 @@ from fastapi import APIRouter, Depends
 import sqlalchemy
 from datetime import datetime
 from app.db import get_db
+from typing import Tuple
 
 router = APIRouter()
 
 
-@router.post("/eligibility/{id}")
-async def check_eligibility(id: str, db = Depends(get_db)) -> dict:
+@router.post("/eligibility/{household_id}")
+async def check_eligibility(household_id: str, db=Depends(get_db)) -> dict:
     """
     Checks for eligibility for services based on service provider data.
 
@@ -29,13 +30,13 @@ async def check_eligibility(id: str, db = Depends(get_db)) -> dict:
 
     # May need to be changed depending on how the id is posted. Single quotes
     # necessary for queries.
-    id = f"'{id}'"
+    household_id = f"'{household_id}'"
     result = {}
-    eligible_income = check_income(id, db)
-    household_size = get_household_size(id, db) # Currently unused
+    eligible_income = check_income(household_id, db)
+    household_size = get_household_size(household_id, db)  # Currently unused
     has_senior_citizen, has_veteran, has_disability, has_valid_ssi, \
-        has_valid_medicare_card = check_recipients(id, db)
-    is_unstable = check_household_stability(id, db)
+        has_valid_medicare_card = check_recipients(household_id, db)
+    is_unstable = check_household_stability(household_id, db)
 
     # Check for resident assistance eligibility
     # This will change if more information is added to the database
@@ -46,9 +47,9 @@ async def check_eligibility(id: str, db = Depends(get_db)) -> dict:
 
     # Check for reduced bus fare eligibility
     if has_senior_citizen \
-        or has_disability \
-        or has_valid_ssi \
-        or has_valid_medicare_card:
+            or has_disability \
+            or has_valid_ssi \
+            or has_valid_medicare_card:
         result["reduced_bus_fare_eligiblity"] = True
     else:
         result["reduced_bus_fare_eligiblity"] = False
@@ -56,7 +57,8 @@ async def check_eligibility(id: str, db = Depends(get_db)) -> dict:
     return result
 
 
-def check_household_stability(id: str, db: sqlalchemy.engine.Connection) -> bool:
+def check_household_stability(
+        household_id: str, db: sqlalchemy.engine.Connection) -> bool:
     """
     Checks if a household has been flagged as unstable.
 
@@ -73,7 +75,7 @@ def check_household_stability(id: str, db: sqlalchemy.engine.Connection) -> bool
     query_string = f"""
     SELECT is_unstable
     FROM households
-    WHERE household_id = {id}
+    WHERE household_id = {household_id}
     """
     with db.begin():
         result = db.execute(query_string).fetchall()[0][0]
@@ -100,7 +102,7 @@ def get_household_size(id: str, db: sqlalchemy.engine.Connection) -> int:
     return size.fetchall()[0][0]
 
 
-def check_income(id, db: sqlalchemy.engine.Connection):
+def check_income(household_id, db: sqlalchemy.engine.Connection):
     """
     Checks if family income is below the current $61,680 threshold.
 
@@ -117,9 +119,10 @@ def check_income(id, db: sqlalchemy.engine.Connection):
     query_string = f"""
     SELECT household_income
     FROM households
-    WHERE household_id = {id}
+    WHERE household_id = {household_id}
     """
-    # This should not be hard coded, and is currently a placeholder with the 
+    # This should not be hard coded
+    # It is currently a placeholder with the
     # correct value as of 7/18/2021 for Spokane, WA.
     threshold = 61680
 
@@ -128,9 +131,12 @@ def check_income(id, db: sqlalchemy.engine.Connection):
     return True if income <= threshold else False
 
 
-def check_recipients(id: str, db: sqlalchemy.engine.Connection) -> 'tuple[bool]':
+def check_recipients(household_id: str,
+                     db: sqlalchemy.engine.Connection) -> Tuple[
+                        bool, bool, bool, bool, bool]:
     """
-    Checks whether or not recipients in a household are above the age of 65, and
+    Checks whether or not recipients in a
+    household are above the age of 65, and
     if they're a veteran.
 
     ### Parameters
@@ -152,7 +158,7 @@ def check_recipients(id: str, db: sqlalchemy.engine.Connection) -> 'tuple[bool]'
     SELECT recipient_date_of_birth, recipient_veteran_status, has_disability,
     has_valid_ssi, has_valid_medicare_card
     FROM recipients
-    WHERE household_id = {id}
+    WHERE household_id = {household_id}
     """
     with db.begin():
         recipients = db.execute(query_string).fetchall()
@@ -163,7 +169,7 @@ def check_recipients(id: str, db: sqlalchemy.engine.Connection) -> 'tuple[bool]'
     has_valid_medicare_card = False
     for person in recipients:
         # There's a better way to do this line
-        age = (datetime.now().date() - person[0]).days / 365.25 # Accounts for leapyear
+        age = (datetime.now().date() - person[0]).days / 365.25
 
         if age >= 65:
             over_65 = True
