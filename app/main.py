@@ -18,7 +18,7 @@ app = FastAPI(
     title='DS API - Family Promise',
     description=description,
     docs_url='/',
-    version='0.35.4',
+    version='0.37.1',
 )
 
 app.include_router(db.router, tags=['Database'])
