@@ -6,14 +6,9 @@
 
 # notebooks
 *.ipynb
-/notebooks
 
 # license
 LICENSE
 
 # csv files
 *.csv
-/data
-
-# test files
-/app/tests
