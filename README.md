@@ -1,6 +1,6 @@
 ## How to Use the DS API
 
-Main URL: http://family-promises-db.eba-saefv7mf.us-east-1.elasticbeanstalk.com
+Main URL: http://family-promise-dev.us-east-1.elasticbeanstalk.com
 
 ### `/vizmap` endpoint
 
@@ -67,7 +67,23 @@ database.
 
 - Create the .env file in the folder.
   - Add `DATABASE_URL = postgresql://docker:****@localhost:5400/api-dev` to the .env file.
+    - That is only for spinning up the local instance for the DS API
   - Make sure the .env file matches the .env file that is in the non public documentation.
 - run:`pipenv install --dev` to download all the dependencies.
 - run:`pipenv shell` to start the pipenv environment.
 - run:`uvicorn app.main:app --reload` to start running the fast api.
+
+### Updating the Elastic Beanstalk environment
+
+1. Do a normal push to GitHub repo and wait for the changes to be approved and pushed to the main branch.
+2. run:`git pull` to make sure code is perfect to deploy to Elastic Beanstalk.
+3. run:`git add --all` to get all the changes to the api that has been made.
+4. Change the version number in the `main.py` file. Example: `0.37.01`
+  - run:`git commit -m 'Depoying version 0.XX.XX to AWS'` to get all the changes add.
+  - When you start to deploy the new changes to Elastic Beanstalk it will take latest commit you made.
+5. run: `eb init --region us-east-1 family-promise` to create the Elastic Beanstalk files in the application.
+   - This step will only be required if you have not deployed to the Elastic Beanstalk environment.
+6. run:`eb deploy --region us-east-1 family-promise-dev`.
+  - Follow instruction that will given to you.
+  - You may have to grab your security credentials from AWS.
+7. Do a final push to add the final version number to the GitHub repo.
