@@ -87,3 +87,21 @@ database.
   - Follow instruction that will given to you.
   - You may have to grab your security credentials from AWS.
 7. Do a final push to add the final version number to the GitHub repo.
+
+## Contributors
+
+## **Data Science Team (September, 2021)**
+
+|                                          [Collin Jensen](https://github.com/collinjensen)                                          |                                       [Jeremiah Evangelista](https://github.com/mramputatoes)                                        |                                             [Paul Santora](https://github.com/santorap)                                             |
+| :-------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: |
+|       [<img src="https://avatars.githubusercontent.com/u/28957442?v=4" width = "200" />](https://github.com/collinjensen)       |      [<img src="https://avatars.githubusercontent.com/u/81700476?v=4" width = "200" />](https://github.com/mramputatoes)       |            [<img src="https://avatars.githubusercontent.com/u/77029484?v=4" width = "200" />](https://github.com/santorap)             |
+|                    [<img src="https://github.com/favicon.ico" width="32"> ](https://github.com/collinjensen)                    |                   [<img src="https://github.com/favicon.ico" width="32"> ](https://github.com/mramputatoes)                    |                          [<img src="https://github.com/favicon.ico" width="32"> ](https://github.com/santorap)                           |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="32"> ](https://www.linkedin.com/in/collin-jensen-b29766146/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="32"> ](https://www.linkedin.com/in/jeremiah-evangelista-6ba928157/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="32"> ](https://www.linkedin.com/in/PaulSantora/) |
+
+|                                      [Sam Ebner](https://github.com/ebnersam)                                      |                                         [Samantha Temple](https://github.com/sntemple12)                                         |
+| :-----------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+|     [<img src="https://avatars.githubusercontent.com/u/84925046?v=4" width = "200" />](https://github.com/ebnersam)      |      [<img src="https://avatars.githubusercontent.com/u/79993685?v=4" width = "200" />](https://github.com/sntemple12)      |
+|                  [<img src="https://github.com/favicon.ico" width="32"> ](https://github.com/ebnersam)                   |                    [<img src="https://github.com/favicon.ico" width="32"> ](https://github.com/sntemple12)                    |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="32"> ](https://www.linkedin.com/in/sam-ebner/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="32"> ](https://www.linkedin.com/in/samantha-temple-487a3620a/) |
+
+<br>
