@@ -76,7 +76,7 @@ database.
 ### Running the DS application with Apple M1
 
 - Install Homebrew.
-  - [Homebrew] (https://brew.sh/)
+  - [Homebrew](https://brew.sh/)
 - Install miniforge for arm64(Apple Silicone M1).
   - [miniforge Github](https://github.com/conda-forge/miniforge).
   - This will not work with Anaconda.
