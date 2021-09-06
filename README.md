@@ -73,6 +73,25 @@ database.
 - run:`pipenv shell` to start the pipenv environment.
 - run:`uvicorn app.main:app --reload` to start running the fast api.
 
+### Running the DS application with Apple M1
+
+- Install Homebrew.
+  - [Homebrew] (https://brew.sh/)
+- Install miniforge for arm64(Apple Silicone M1).
+  - [miniforge Github](https://github.com/conda-forge/miniforge).
+  - This will not work with Anaconda.
+- run: `conda create --name NAME python=3.8`: creates a conda environment.
+- run: `conda activate NAME`: activates the conda environment.
+  - The conda environment needs to running in order for the application to run.
+- run: `conda install -c conda-forge -y psycopg2 numpy pandas`: install necessary dependencies.
+- Create the .env file in the folder.
+  - Add `DATABASE_URL = postgresql://docker:****@localhost:5400/api-dev` to the .env file.
+    - That is only for spinning up the local instance for the DS API
+  - Make sure the .env file matches the .env file that is in the non-public documentation.
+- run:`pipenv install --dev` to download all the dependencies.
+- run:`pipenv shell` to start the pipenv environment.
+- run:`uvicorn app.main:app --reload` to start running the fast api.
+
 ### Updating the Elastic Beanstalk environment
 
 1. Do a normal push to GitHub repo and wait for the changes to be approved and pushed to the main branch.
