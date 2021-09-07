@@ -75,6 +75,7 @@ database.
 
 ### Running the DS application with Apple M1
 
+- When you `pipenv install --dev` on the M1 you will most likely run into issues where the Pipfile will fail to lock due to issues with psycopg2. Psyocopg2 specifically has issues pip installing on the M1. After figuring out past issues with the M1, this is a work around until there is further bug fixing on compatibility.
 - Install Homebrew.
   - [Homebrew](https://brew.sh/)
 - Install miniforge for arm64(Apple Silicone M1).
@@ -84,13 +85,7 @@ database.
 - run: `conda activate NAME`: activates the conda environment.
   - The conda environment needs to running in order for the application to run.
 - run: `conda install -c conda-forge -y psycopg2 numpy pandas`: install necessary dependencies.
-- Create the .env file in the folder.
-  - Add `DATABASE_URL = postgresql://docker:****@localhost:5400/api-dev` to the .env file.
-    - That is only for spinning up the local instance for the DS API
-  - Make sure the .env file matches the .env file that is in the non-public documentation.
-- run:`pipenv install --dev` to download all the dependencies.
-- run:`pipenv shell` to start the pipenv environment.
-- run:`uvicorn app.main:app --reload` to start running the fast api.
+- Create the .env file in the folder and continue following the instructions in the section above.
 
 ### Updating the Elastic Beanstalk environment
 
