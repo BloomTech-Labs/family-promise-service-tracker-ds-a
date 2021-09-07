@@ -73,6 +73,20 @@ database.
 - run:`pipenv shell` to start the pipenv environment.
 - run:`uvicorn app.main:app --reload` to start running the fast api.
 
+### Running the DS application with Apple M1
+
+- When you `pipenv install --dev` on the M1 you will most likely run into issues where the Pipfile will fail to lock due to issues with psycopg2. Psyocopg2 specifically has issues pip installing on the M1. After figuring out past issues with the M1, this is a work around until there is further bug fixing on compatibility.
+- Install Homebrew.
+  - [Homebrew](https://brew.sh/)
+- Install miniforge for arm64(Apple Silicone M1).
+  - [miniforge Github](https://github.com/conda-forge/miniforge).
+  - This will not work with Anaconda.
+- run: `conda create --name NAME python=3.8`: creates a conda environment.
+- run: `conda activate NAME`: activates the conda environment.
+  - The conda environment needs to running in order for the application to run.
+- run: `conda install -c conda-forge -y psycopg2 numpy pandas`: install necessary dependencies.
+- Create the .env file in the folder and continue following the instructions in the section above.
+
 ### Updating the Elastic Beanstalk environment
 
 1. Do a normal push to GitHub repo and wait for the changes to be approved and pushed to the main branch.
