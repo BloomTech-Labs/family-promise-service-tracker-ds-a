@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app import db, ml, viz, eligibility, metrics
+from app import db, ml, viz, eligibility, metrics, geocode
 
 
 description = """
@@ -26,6 +26,7 @@ app.include_router(ml.router, tags=['Machine Learning'])
 app.include_router(viz.router, tags=['Visualizations'])
 app.include_router(eligibility.router, tags=['Eligibility'])
 app.include_router(metrics.router, tags=['Metrics'])
+app.include_router(geocode.router, tags=['Geocode'])
 
 app.add_middleware(
     CORSMiddleware,
