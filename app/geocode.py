@@ -21,6 +21,9 @@ async def get_latitude_longitude(request: Request):
 
     All values should be a string
     if there is no address_line2, the value should still be an empty string
+
+    The output will be a JSON object with the following format:
+    {"latitude": , "longitude": }
     """
     # await because async...
     # request.json() retrieves the info that is being posted to this route
