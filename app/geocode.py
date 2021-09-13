@@ -29,7 +29,8 @@ async def get_latitude_longitude(request: Request):
     # request.json() retrieves the info that is being posted to this route
     address_input = await request.json()
     # instantiate latitude + longitude dict
-    lat_long = {"latitude": 0, "longitude": 0}
+    # default values point to a Family Promise Homeless Shelter
+    lat_long = {"latitude": 47.649710, "longitude": -117.397640}
     # instantiate geopy locator using user_agent from previous cohort
     locator = Nominatim(user_agent='DS API - Family Promise')
     # address string
@@ -43,16 +44,5 @@ async def get_latitude_longitude(request: Request):
         # update latitude and longitude with real values
         lat_long["latitude"] = locator.geocode(address_string).latitude
         lat_long["longitude"] = locator.geocode(address_string).longitude
-    else:
-        # TODO - use better default values than "0" when an address is invalid or missing
-        # possible ideas:
-        # latitude and longitude of zip code if available
-        # or
-        # simply avoid mapping points if there are no valid coordinates
-        # and have an additional section on the map visualization for unmapped services
-        #
-        # and if all else fails, and we still *need* numbers that aren't 0...
-        # use "headquarters" or some other default point determined by stakeholder
-        None
 
     return lat_long
