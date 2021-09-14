@@ -60,6 +60,28 @@ database.
 Returns an integer representing the total number of children recorded in the
 database.
 
+### `/genders_served` endpoint
+Returns an list displaying the total number of recipients of each gender
+in the database.
+
+### `/races_served` endpoint
+Returns a list displaying the total number of recipients of each race in the
+database.
+
+### `/ethnicities_served` endpoint
+Returns a list displaying the total number of recipients of each ethnicity in 
+the database.
+
+### `/program_enrollment` endpoint
+Returns a list displaying the total number of services done that fall under each
+program.
+
+### `/services_given` endpoint
+Returns a list displaying the total number of each service done.
+
+### `/locations_of_service` endpoint
+Returns a list displaying the total number of services given at each type of location
+in the database.
 
 [Docs](https://docs.labs.lambdaschool.com/data-science/)
 
