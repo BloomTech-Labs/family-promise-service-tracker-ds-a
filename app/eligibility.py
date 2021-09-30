@@ -50,9 +50,9 @@ async def check_eligibility(household_id: str, db=Depends(get_db)) -> dict:
             or has_disability \
             or has_valid_ssi \
             or has_valid_medicare_card:
-        result["reduced_bus_fare_eligiblity"] = True
+        result["reduced_bus_fare_eligibility"] = True
     else:
-        result["reduced_bus_fare_eligiblity"] = False
+        result["reduced_bus_fare_eligibility"] = False
 
     return result
 
@@ -117,18 +117,18 @@ def check_income(household_id, db: sqlalchemy.engine.Connection):
         True if the household's income is at or below the threshold
     """
     query_string = f"""
-    SELECT household_income
+    SELECT household_monthly_income
     FROM households
     WHERE household_id = {household_id}
     """
     # This should not be hard coded
     # It is currently a placeholder with the
     # correct value as of 7/18/2021 for Spokane, WA.
-    threshold = 61680
+    threshold = 61680 / 12
 
     with db.begin():
         income = db.execute(query_string).fetchall()[0][0]
-    return True if income <= threshold else False
+    return income <= threshold
 
 
 def check_recipients(household_id: str,

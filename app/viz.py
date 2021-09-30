@@ -31,10 +31,10 @@ async def visual(query_json):
     """
     # read in json from BE
     with open(query_json, 'r') as f:
-        Data_path_vet = json.loads(f.read())
+        data_path_vet = json.loads(f.read())
 
     # create dataframe from loaded json
-    df = pd.DataFrame.from_dict(Data_path_vet)
+    df = pd.DataFrame.from_dict(data_path_vet)
     # instantiate locator
     locator = Nominatim(user_agent='DS API - Family Promise')
     # the columns that together make up the full address
@@ -82,16 +82,16 @@ async def veteran_counts(query_json):
 
     # read in json
     with open(query_json, 'r') as f:
-        Data_path_vet = json.loads(f.read())
+        data_path_vet = json.loads(f.read())
 
     # create dataframe from loaded json
-    df = pd.DataFrame.from_dict(Data_path_vet)
+    df = pd.DataFrame.from_dict(data_path_vet)
 
     # get value counts of veterans vs non veterans
-    veteran_counts = df['recipient_veteran_status'].value_counts()
+    veteran_count = df['recipient_veteran_status'].value_counts()
     # make bar chart of the counts
     veteran_counts_fig = px.bar(
-        veteran_counts,
+        veteran_count,
         labels={'index': 'Veteran Status', 'value': 'Count'},
         title='Number of Veterans being Served'
     )
@@ -110,9 +110,9 @@ async def age_metric(query_json):
     """
     # read in json
     with open(query_json, 'r') as f:
-        Data_path_age = json.loads(f.read())
+        data_path_age = json.loads(f.read())
     # create dataframe from loaded json
-    df = pd.DataFrame.from_dict(Data_path_age)
+    df = pd.DataFrame.from_dict(data_path_age)
     df = df.dropna()
     # configure dataset and calculate age based on date of birth from today
     df['DOB'] = pd.to_datetime(
