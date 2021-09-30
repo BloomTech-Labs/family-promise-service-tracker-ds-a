@@ -5,7 +5,6 @@ from app import db, ml, viz, eligibility, metrics, geocode
 
 
 description = """
-
 To use these interactive docs:
 - Click on an endpoint below
 - Click the **Try it out** button
@@ -18,7 +17,7 @@ app = FastAPI(
     title='DS API - Family Promise',
     description=description,
     docs_url='/',
-    version='0.38.02',
+    version='0.39.0',
 )
 
 app.include_router(db.router, tags=['Database'])
