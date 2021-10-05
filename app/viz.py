@@ -25,7 +25,7 @@ async def visual(query_json):
     query_json : JSON object
         Sent to DS API from BE
 
-    Outut:
+    Output:
     -------
     JSON object sent back to BE
     """
