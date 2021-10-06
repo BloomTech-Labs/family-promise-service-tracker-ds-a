@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from geopy.geocoders import Nominatim
 import geopy
 
@@ -6,43 +6,21 @@ router = APIRouter()
 
 
 @router.post("/geocode/")
-async def get_latitude_longitude(request: Request):
-    # request needs to be instantiated or you'll get a self error
+async def get_latitude_longitude(address_input: dict):
     """
-    Please post an address as a JSON object with this exact format:
-    {
-        "address": "123 Gilman Dr W",
-        "address_line2": "",
-        "city": "Seattle",
-        "state": "WA",
-        "zip": "98119",
-        "country": "United States"
-    }
+    Please post an address as a JSON object with this format:
 
-    All values should be a string
-    if there is no address_line2, the value should still be an empty string
+{"address": "123 Gilman Dr W", "address_line2": "", "city": "Seattle", "state": "WA", "zip": "98119", "country": "United States"}
 
     The output will be a JSON object with the following format:
-    {"latitude": , "longitude": }
+{"latitude": 47.64971, "longitude": -117.39764}
+
+    Default values point to a the Family Promise Homeless Shelter
     """
-    # await because async...
-    # request.json() retrieves the info that is being posted to this route
-    address_input = await request.json()
-    # instantiate latitude + longitude dict
-    # default values point to a Family Promise Homeless Shelter
     lat_long = {"latitude": 47.649710, "longitude": -117.397640}
-    # instantiate geopy locator using user_agent from previous cohort
     locator = Nominatim(user_agent='DS API - Family Promise')
-    # address string
-    address_string = "".join(
-        line + " "
-        for line in address_input.values()
-        if type(line) == str and line != ""
-    )
-    # ensure the provided address is properly recognized
+    address_string = " ".join(val for val in address_input.values() if val)
     if type(locator.geocode(address_string)) == geopy.location.Location:
-        # update latitude and longitude with real values
         lat_long["latitude"] = locator.geocode(address_string).latitude
         lat_long["longitude"] = locator.geocode(address_string).longitude
-
     return lat_long
