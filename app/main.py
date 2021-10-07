@@ -12,7 +12,7 @@ app = FastAPI(
 )
 
 app.include_router(db.router, tags=['Database'])
-# app.include_router(viz.router, tags=['Visualizations'])
+app.include_router(viz.router, tags=['Visualizations'])
 # app.include_router(eligibility.router, tags=['Eligibility'])
 # app.include_router(metrics.router, tags=['Metrics'])
 app.include_router(geocode.router, tags=['Geocode'])
