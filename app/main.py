@@ -1,17 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# from app import db, viz, eligibility, metrics, geocode
+from app import db, viz, eligibility, metrics, geocode
 from app import geocode
 
 
 app = FastAPI(
     title='DS API - Family Promise',
     docs_url='/',
-    version='0.39.2b',
+    version='0.39.3b',
 )
 
-# app.include_router(db.router, tags=['Database'])
+app.include_router(db.router, tags=['Database'])
 # app.include_router(viz.router, tags=['Visualizations'])
 # app.include_router(eligibility.router, tags=['Eligibility'])
 # app.include_router(metrics.router, tags=['Metrics'])
