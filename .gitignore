@@ -143,8 +143,11 @@ cython_debug/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+.elasticbeanstalk/*.cfg.yml
+.elasticbeanstalk/*.global.yml
 
 # Pycharm Project Files
 .idea/*
+
+# Temp Files
+/scratch.py
