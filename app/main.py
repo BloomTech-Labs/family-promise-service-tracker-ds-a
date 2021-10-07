@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import db, viz, eligibility, metrics, geocode
-from app import geocode
 
 
 app = FastAPI(
