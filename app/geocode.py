@@ -26,7 +26,8 @@ async def get_latitude_longitude(address_input: Dict):
             "longitude": locator.geocode(address_string).longitude,
         }
     else:
-        address_string = " ".join(val for key, val in address_input.items() if key != "address_line2")
+        address_string = " ".join(
+            val for key, val in address_input.items() if key != "address_line2")
         if type(locator.geocode(address_string)) == geopy.location.Location:
             return {
                 "latitude": locator.geocode(address_string).latitude,
