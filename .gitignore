@@ -148,3 +148,4 @@ cython_debug/
 
 # Pycharm Project Files
 .idea/*
+/scratch.py
