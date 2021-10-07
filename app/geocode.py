@@ -1,3 +1,5 @@
+from typing import Dict
+
 from fastapi import APIRouter
 from geopy.geocoders import Nominatim
 import geopy
@@ -6,7 +8,7 @@ router = APIRouter()
 
 
 @router.post("/geocode/")
-async def get_latitude_longitude(address_input: dict):
+async def get_latitude_longitude(address_input: Dict):
     """
     Please post an address as a JSON object with this format:
 {"address": "123 Gilman Dr W", "address_line2": "", "city": "Seattle", "state": "WA", "zip": "98119", "country": "United States"}
