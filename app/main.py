@@ -7,7 +7,7 @@ from app import db, viz, eligibility, metrics, geocode
 app = FastAPI(
     title='DS API - Family Promise',
     docs_url='/',
-    version='0.39.1',
+    version='0.39.2',
 )
 
 app.include_router(db.router, tags=['Database'])
