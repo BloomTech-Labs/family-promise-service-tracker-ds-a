@@ -5,6 +5,7 @@ from geopy.geocoders import Nominatim
 import geopy
 
 router = APIRouter()
+locator = Nominatim(user_agent="DS API - Family Promise")
 
 
 @router.post("/geocode/")
@@ -18,7 +19,6 @@ async def get_latitude_longitude(address_input: Dict):
     """
     if not address_input:
         return {"latitude": 47.64971, "longitude": -117.39764}
-    locator = Nominatim(user_agent="DS API - Family Promise")
     address_string = " ".join(val for val in address_input.values() if val)
     if type(locator.geocode(address_string)) == geopy.location.Location:
         return {
